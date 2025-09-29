@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Feliz Cumpleaños Mi Princesa 💕</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body.opened {
+            overflow-y: auto;
+            align-items: flex-start;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+        }
+
+        .envelope-section {
+            text-align: center;
+            margin-bottom: 30px;
+            transition: all 1.2s ease;
+        }
+
+        .envelope-section.opened {
+            opacity: 0;
+            transform: scale(0.5) translateY(-100px);
+            pointer-events: none;
+        }
+
+        .title-above {
+            color: white;
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-shadow: 
+                3px 3px 15px rgba(0, 0, 0, 0.7),
+                0 0 50px rgba(255, 255, 255, 0.6);
+            animation: titleGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes titleGlow {
+            0%, 100% {
+                text-shadow: 
+                    3px 3px 15px rgba(0, 0, 0, 0.7),
+                    0 0 50px rgba(255, 255, 255, 0.6);
+            }
+            50% {
+                text-shadow: 
+                    3px 3px 15px rgba(0, 0, 0, 0.7),
+                    0 0 70px rgba(255, 255, 255, 0.9);
+            }
+        }
+
+        .envelope-wrapper {
+            position: relative;
+            width: 500px;
+            height: 350px;
+            margin: 0 auto;
+        }
+
+        .envelope {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        .envelope:hover {
+            transform: scale(1.03);
+            transition: transform 0.3s ease;
+        }
+
+        /* Cuerpo del sobre */
+        .envelope-body {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #c62828 0%, #b71c1c 100%);
+            border-radius: 15px;
+            box-shadow: 
+                0 25px 70px rgba(0, 0, 0, 0.6),
+                inset 0 -3px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Solapa triangular superior */
+        .envelope-flap {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 250px solid transparent;
+            border-right: 250px solid transparent;
+            border-top: 175px solid;
+            border-top-color: #ff6b9d;
+            top: 0;
+            left: 0;
+            transform-origin: top center;
+            transition: transform 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 2;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+        }
+
+        .envelope-section.opened .envelope-flap {
+            transform: rotateX(-180deg);
+        }
+
+        /* Sello central */
+        .envelope-seal {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, #ff85a8 0%, #ff6b9d 100%);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 11;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+            transition: all 0.8s ease;
+        }
+
+        .envelope-section.opened .envelope-seal {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0);
+        }
+
+        /* Estampilla */
+        .heart-stamp {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            font-size: 4em;
+            z-index: 4;
+            animation: stampBeat 1.6s ease-in-out infinite;
+            filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.6));
+        }
+
+        @keyframes stampBeat {
+            0%, 100% {
+                transform: scale(1) rotate(-12deg);
+            }
+            25% {
+                transform: scale(1.28) rotate(-12deg);
+            }
+            50% {
+                transform: scale(1) rotate(-12deg);
+            }
+        }
+
+        /* Carta dentro del sobre */
+        .letter-paper {
+            position: absolute;
+            width: 92%;
+            left: 4%;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(to bottom, #ffffff 0%, #fefcfb 100%);
+            border-radius: 12px;
+            box-shadow: 
+                0 12px 45px rgba(0, 0, 0, 0.4),
+                inset 0 2px 5px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            z-index: 10;
+            max-height: 80%;
+            overflow: hidden;
+            transition: all 1.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .envelope-section.opened .letter-paper {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .tap-instruction {
+            color: white;
+            font-size: 1.5em;
+            margin-top: 25px;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+            animation: tapPulse 1.8s ease-in-out infinite;
+        }
+
+        @keyframes tapPulse {
+            0%, 100% {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            50% {
+                transform: translateY(-10px);
+                opacity: 0.7;
+            }
+        }
+
+        /* Carta completa */
+        .full-letter {
+            display: none;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(to bottom, #ffffff 0%, #fefcfb 100%);
+            border-radius: 20px;
+            box-shadow: 0 20px 80px rgba(0, 0, 0, 0.6);
+            padding: 50px 45px;
+            opacity: 0;
+        }
+
+        .full-letter.show {
+            display: block;
+            animation: showLetter 1.5s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes showLetter {
+            to { opacity: 1; }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 35px;
+            position: relative;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #c2185b;
+            font-size: 2em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            line-height: 1.4;
+            animation: titleFloat 2s ease forwards;
+            animation-delay: 1s;
+            transform: translateZ(0);
+        }
+
+        @keyframes titleFloat {
+            from {
+                transform: translateZ(0);
+            }
+            to {
+                transform: translateZ(50px) scale(1.05);
+                text-shadow: 
+                    2px 2px 4px rgba(0, 0, 0, 0.1),
+                    0 10px 30px rgba(194, 24, 91, 0.3);
+            }
+        }
+
+        .heart-title {
+            display: inline-block;
+            animation: heartPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            25% { transform: scale(1.3); }
+            50% { transform: scale(1); }
+        }
+
+        .tulip-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .tulip {
+            font-size: 3em;
+            animation: tulipSway 3s ease-in-out infinite;
+            display: inline-block;
+            margin: 5px;
+            filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.2));
+        }
+
+        .tulip:nth-child(1) { animation-delay: 0s; }
+        .tulip:nth-child(2) { animation-delay: 0.5s; }
+        .tulip:nth-child(3) { animation-delay: 1s; }
+        .tulip:nth-child(4) { animation-delay: 1.5s; }
+        .tulip:nth-child(5) { animation-delay: 2s; }
+
+        @keyframes tulipSway {
+            0%, 100% {
+                transform: rotate(0deg) translateY(0);
+            }
+            25% {
+                transform: rotate(-10deg) translateY(-10px);
+            }
+            75% {
+                transform: rotate(10deg) translateY(-10px);
+            }
+        }
+
+        .letter-text {
+            line-height: 2;
+            color: #2c2c2c;
+            font-size: 1.1em;
+            text-align: justify;
+        }
+
+        .letter-text p {
+            margin-bottom: 18px;
+        }
+
+        .signature {
+            text-align: right;
+            font-style: italic;
+            color: #c2185b;
+            margin-top: 40px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        /* Corazones flotantes */
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 2.5em;
+            opacity: 0;
+            animation: heartFloat 10s infinite;
+        }
+
+        @keyframes heartFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.3);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.9;
+            }
+            90% {
+                opacity: 0.9;
+            }
+            100% {
+                transform: translateY(-150px) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        .floating-heart:nth-child(1) { left: 5%; animation-delay: 0s; }
+        .floating-heart:nth-child(2) { left: 20%; animation-delay: 2.5s; }
+        .floating-heart:nth-child(3) { left: 40%; animation-delay: 5s; }
+        .floating-heart:nth-child(4) { left: 60%; animation-delay: 1.5s; }
+        .floating-heart:nth-child(5) { left: 80%; animation-delay: 4s; }
+        .floating-heart:nth-child(6) { left: 95%; animation-delay: 3s; }
+
+        /* Responsive para iPhone 16 Pro (1290x2796) */
+        @media (max-width: 430px) {
+            body {
+                padding: 15px;
+                padding-top: max(20px, env(safe-area-inset-top));
+                padding-bottom: max(20px, env(safe-area-inset-bottom));
+            }
+            
+            .title-above {
+                font-size: 1.8em;
+                margin-bottom: 25px;
+            }
+
+            .envelope-wrapper {
+                width: 320px;
+                height: 224px;
+            }
+
+            .envelope-flap {
+                border-left-width: 160px;
+                border-right-width: 160px;
+                border-top-width: 112px;
+            }
+
+            .full-letter {
+                padding: 35px 25px;
+                margin-top: 20px;
+            }
+
+            h1 {
+                font-size: 1.6em;
+            }
+
+            .tulip {
+                font-size: 2.2em;
+            }
+
+            .letter-text {
+                font-size: 1em;
+                line-height: 1.8;
+            }
+
+            .heart-stamp {
+                font-size: 3em;
+                top: 20px;
+                right: 20px;
+            }
+
+            .envelope-seal {
+                width: 70px;
+                height: 70px;
+                font-size: 2.3em;
+            }
+
+            .tap-instruction {
+                font-size: 1.1em;
+            }
+            
+            .signature {
+                margin-top: 30px;
+                font-size: 1.1em;
+            }
+        }
+
+        /* Para pantallas más pequeñas que el iPhone 16 Pro */
+        @media (max-width: 390px) {
+            .title-above {
+                font-size: 1.6em;
+            }
+
+            .envelope-wrapper {
+                width: 280px;
+                height: 196px;
+            }
+
+            .envelope-flap {
+                border-left-width: 140px;
+                border-right-width: 140px;
+                border-top-width: 98px;
+            }
+
+            .full-letter {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.4em;
+            }
+
+            .tulip {
+                font-size: 2em;
+            }
+
+            .letter-text {
+                font-size: 0.95em;
+            }
+
+            .heart-stamp {
+                font-size: 2.5em;
+                top: 15px;
+                right: 15px;
+            }
+
+            .envelope-seal {
+                width: 60px;
+                height: 60px;
+                font-size: 2em;
+            }
+
+            .tap-instruction {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts">
+        <div class="floating-heart">💕</div>
+        <div class="floating-heart">💕</div>
+        <div class="floating-heart">💕</div>
+        <div class="floating-heart">💕</div>
+        <div class="floating-heart">💕</div>
+        <div class="floating-heart">💕</div>
+    </div>
+
+    <div class="container">
+        <div class="envelope-section" id="envelopeSection">
+            <div class="title-above">FELIZ CUMPLEAÑOS MI NIÑA💕</div>
+            
+            <div class="envelope-wrapper">
+                <div class="envelope" id="envelope" onclick="openLetter()">
+                    <!-- Cuerpo del sobre -->
+                    <div class="envelope-body"></div>
+
+                    <!-- Estampilla -->
+                    <div class="heart-stamp">💕</div>
+
+                    <!-- Sello central -->
+                    <div class="envelope-seal">💌</div>
+
+                    <!-- Carta dentro del sobre (solo visual) -->
+                    <div class="letter-paper"></div>
+
+                    <!-- Solapa triangular -->
+                    <div class="envelope-flap"></div>
+                </div>
+            </div>
+
+            <div class="tap-instruction">Toca el sobre para abrir</div>
+        </div>
+
+        <!-- Carta completa -->
+        <div class="full-letter" id="fullLetter">
+            <div class="header">
+                <h1>Feliz cumpleaños mi princesa <span class="heart-title">💕</span></h1>
+            </div>
+
+            <div class="tulip-container">
+                <span class="tulip">🌷</span>
+                <span class="tulip">🌷</span>
+                <span class="tulip">🌷</span>
+                <span class="tulip">🌷</span>
+                <span class="tulip">🌷</span>
+            </div>
+
+            <div class="letter-text">
+                <p>Hoy cumples 23 años, mi niña y no hay nada que me haga más feliz que celebrar este día contigo.</p>
+
+                <p>Este es tu momento tu día especial y quiero que lo vivas con toda la alegría y la paz que mereces.</p>
+
+                <p>He visto cómo has crecido todos estos años cómo te has vuelto más fuerte más valiente y más increíble cada día.</p>
+
+                <p>Me siento muy orgulloso de ti mi vida de todo lo que eres de lo que has logrado y de la manera en que enfrentas cada desafío.</p>
+
+                <p>Sé que no siempre ha sido fácil que a veces la vida pesa y que los problemas parecen no acabar pero aun así tú sigues adelante con esa fuerza y esa luz que solo tú tienes.</p>
+
+                <p>Quiero que sepas que este cumpleaños no es solo un número es un recordatorio de todo lo que has vivido de todo lo que has aprendido y de lo hermosa que te estás convirtiendo en cada etapa de tu vida.</p>
+
+                <p>Eres única mi princesa y el mundo es más bonito porque tú estás en él.</p>
+
+                <p>Deseo que este nuevo año de vida te traiga momentos de alegría que te llenen el corazón de sueños que se hagan realidad y la certeza de que cada paso que des vale la pena.</p>
+
+                <p>Que nunca pierdas esa chispa que te hace tan especial mi niña y que siempre recuerdes lo valiosa que eres.</p>
+
+                <p>Mi princesa, mi niña, mi vida… disfruta cada instante de este día, sonríe como solo tú sabes hacerlo, y recibe todo el amor que te mereces.</p>
+
+                <p>Yo estoy aquí feliz de poder acompañarte de verte crecer y de celebrar cada capítulo de tu historia a tu lado.</p>
+
+                <p class="signature">Te amo mucho, mi amor 💕. Feliz cumpleaños mi vida. Gracias por ser tú por ser mi princesa y por enseñarme cada día lo que significa amar de verdad.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isOpened = false;
+
+        function openLetter() {
+            if (isOpened) return;
+            
+            const section = document.getElementById('envelopeSection');
+            const fullLetter = document.getElementById('fullLetter');
+            const body = document.body;
+            
+            section.classList.add('opened');
+            fullLetter.classList.add('show');
+            body.classList.add('opened');
+            
+            isOpened = true;
+            
+            // Vibrar ligeramente en dispositivos compatibles
+            if (navigator.vibrate) {
+                navigator.vibrate(100);
+            }
+        }
+        
+        // Prevenir zoom en doble toque
+        document.addEventListener('touchstart', function(event) {
+            if (event.touches.length > 1) {
+                event.preventDefault();
+            }
+        }, { passive: false });
+        
+        let lastTouchEnd = 0;
+        document.addEventListener('touchend', function(event) {
+            const now = (new Date()).getTime();
+            if (now - lastTouchEnd <= 300) {
+                event.preventDefault();
+            }
+            lastTouchEnd = now;
+        }, false);
+    </script>
+</body>
+</html>
